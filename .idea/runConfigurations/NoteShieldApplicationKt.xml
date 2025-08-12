@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="NoteShieldApplicationKt" type="JetRunConfigurationType" singleton="false" nameIsGenerated="true">
+    <envs>
+      <env name="JWT_KEY" value="cXdlcnR5dWlvYXNkZmdoamt4Y3ZibndlcnR5dXNkZmdoYXNyYWY=" />
+      <env name="MONGO_URI" value="mongodb+srv://asraf:asraf007@testspringboot.uqcpvyf.mongodb.net/?retryWrites=true&amp;w=majority&amp;appName=TestSpringboot" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="com.since.noteShield.NoteShieldApplicationKt" />
+    <module name="noteShield.main" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="MakeProject" enabled="true" />
+      <option name="Make" enabled="true" />
+      <option name="MakeNoErrorCheck" enabled="true" />
+    </method>
+  </configuration>
+</component>
