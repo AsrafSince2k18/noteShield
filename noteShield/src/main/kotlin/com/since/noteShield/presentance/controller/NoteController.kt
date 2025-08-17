@@ -95,14 +95,22 @@ class NoteController(
             .orElseThrow {
                 ResponseStatusException(HttpStatus.NOT_FOUND, "Id=$id not found")
             }
-        val noteUpdate = note.copy(
-            title = body.title,
-            content = body.content,
-            time = Instant.now()
-        )
-        println("Update data")
-        noteRepository.save(noteUpdate)
-        return ResponseEntity.ok(noteUpdate.toNoteResponse())
+
+
+       return if (note.ownerId == user().id){
+            val noteUpdate = note.copy(
+                title = body.title,
+                content = body.content,
+                time = Instant.now()
+            )
+            println("Update data")
+           val update= noteRepository.save(noteUpdate)
+             ResponseEntity.ok(update.toNoteResponse())
+        }else{
+           ResponseEntity.notFound().build()
+       }
+
+
     }
 
 
@@ -114,8 +122,14 @@ class NoteController(
             .orElse(null)
 
 
-        val delete=noteRepository.delete(note)
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(delete)
+        return if(note.ownerId == user().id){
+            noteRepository.delete(note)
+            ResponseEntity.noContent().build<Unit>()
+        }else{
+            ResponseEntity.notFound().build<Unit>()
+        }
+
+
     }
 
     @DeleteMapping
