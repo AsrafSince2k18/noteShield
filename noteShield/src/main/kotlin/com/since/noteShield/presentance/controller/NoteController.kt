@@ -53,7 +53,6 @@ class NoteController(
             return emptyList()
         }
         return noteItem.map { it.toNoteResponse() }
-
     }
 
     @GetMapping("/{id}")
