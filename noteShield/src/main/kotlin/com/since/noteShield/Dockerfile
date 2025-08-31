@@ -1,22 +1,13 @@
-# Importing JDK and copying required files
-FROM openjdk:19-jdk AS build
+# Build stage
+FROM gradle:8.7-jdk17 AS build
 WORKDIR /app
-COPY pom.xml .
-COPY src src
+COPY . .
+RUN gradle bootJar --no-daemon
 
-# Copy Maven wrapper
-COPY mvnw .
-COPY .mvn .mvn
-
-# Set execution permission for the Maven wrapper
-RUN chmod +x ./mvnw
-RUN ./mvnw clean package -DskipTests
-
-# Stage 2: Create the final Docker image using OpenJDK 19
-FROM openjdk:19-jdk
-VOLUME /tmp
-
-# Copy the JAR from the build stage
-COPY --from=build /app/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+# Run stage
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar app.jar
+ENV PORT=8080
 EXPOSE 8080
+CMD ["sh", "-c", "java -Dserver.port=${PORT} -jar app.jar"]
