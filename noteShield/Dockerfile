@@ -1,5 +1,5 @@
 # Stage 1: Build jar
-FROM gradle:8.4.1-jdk17 AS build
+FROM gradle:8.4.1-jdk17-alpine AS build
 WORKDIR /home/gradle/project
 COPY . .
 RUN gradle clean build -x test
