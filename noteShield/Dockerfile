@@ -1,11 +1,9 @@
-# Stage 1: Build jar
-FROM gradle:8.4.1-jdk17-alpine AS build
-WORKDIR /home/gradle/project
-COPY . .
-RUN gradle clean build -x test
+FROM eclipse-temurin:17-jdk-alpine
 
-# Stage 2: Run jar
-FROM openjdk:17-jdk-alpine
 WORKDIR /app
-COPY --from=build /home/gradle/project/build/libs/noteShield-0.0.1-SNAPSHOT.jar app.jar
-ENTRYPOINT ["java","-jar","app.jar"]
+
+COPY build/libs/noteShield-0.0.1-SNAPSHOT.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java","-jar","/app/app.jar"]
